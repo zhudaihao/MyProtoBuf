@@ -1,0 +1,33 @@
+syntax = "proto2";
+
+package tutorial;
+
+option java_package = "com.example.tutorial";
+option java_outer_classname = "AddressBookProtos";
+
+message Person {
+  //required为必选 被修饰后的变量必须赋值（所谓必须赋值就是你在创建Person对象时必须set被required修饰的）
+  //下面的1 2 3不是给变量赋值 而是 变量的标记 一般从1开始按顺序标记 尽量不要超过15 （超过会占用2个字节）
+  required string name = 1;
+  required int32 id = 2;
+  //optional 为可选 被修饰后的变量必须赋值
+  //建议尽量使用 optional 修饰 加快编译速度（系统会使用TV编译格式 省略L）
+  optional string email = 3;
+
+  enum PhoneType {
+    MOBILE = 0;
+    HOME = 1;
+    WORK = 2;
+  }
+
+  message PhoneNumber {
+    required string number = 1;
+    optional PhoneType type = 2 [default = HOME];
+  }
+
+  repeated PhoneNumber phones = 4;//repeated就是数组
+}
+
+message AddressBook {
+  repeated Person people = 1;//repeated集合
+}
